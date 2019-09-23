@@ -11,6 +11,38 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+/*
+ * 前台路由
+ */
+Route::namespace("home") -> group(function () {
+    Route::get('/',"IndexController@index");
+});
+
+
+/*
+ * 后台路由
+ */
+Route::namespace('admin') -> group(function () {
+
+    /*
+     * 后台登录
+     */
+    Route::get("/admin/login","LoginController@login");
+    Route::post("/admin/doLogin","LoginController@doLogin");
+    Route::post("/admin/quit","LoginController@quit");
+
+    /*
+     * 中间件组
+     */
+    Route::middleware("control") -> group(function () {
+        /*
+         * 公共布局
+         */
+        Route::get("/admin","BaseController@layout");
+        /*
+         * 首页
+         */
+        Route::get("/admin/index","IndexController@index");
+    });
 });
