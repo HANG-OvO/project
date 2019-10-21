@@ -28,9 +28,9 @@ Route::namespace('Admin') -> group(function () {
     /*
      * 后台登录
      */
-    Route::get("/Admin/login","LoginController@login");
-    Route::post("/Admin/doLogin","LoginController@doLogin");
-    Route::post("/Admin/quit","LoginController@quit");
+    Route::get("/admin/login","LoginController@login");
+    Route::post("/admin/doLogin","LoginController@doLogin");
+    Route::post("/admin/quit","LoginController@quit");
 
     /*
      * 中间件组
@@ -39,10 +39,10 @@ Route::namespace('Admin') -> group(function () {
         /*
          * 公共布局
          */
-        Route::get("/Admin","BaseController@layout");
+        Route::get("/admin","BaseController@layout");
         /*
          * 首页
          */
-        Route::get("/Admin/index","IndexController@index");
+        Route::get("/admin/index","IndexController@index");
     });
 });
