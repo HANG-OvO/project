@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 /**
 * 首页控制器
@@ -18,7 +18,7 @@ class IndexController extends BaseController
     * @return string(后台首页视图)
     */
     public function index(){
-        return view("admin.index.index");
+        return view("Admin.index.index");
     }
 
 }
