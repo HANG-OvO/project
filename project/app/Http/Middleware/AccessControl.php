@@ -18,7 +18,7 @@ class AccessControl
     {
         $userInfo = $request -> session() -> get("userInfo");
         if( !$userInfo ){
-            return redirect("/Admin/login");
+            return redirect("/admin/login");
         }
         return $next($request);
     }

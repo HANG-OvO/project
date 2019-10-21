@@ -24,7 +24,7 @@ class LoginController extends Controller
     {
         $loginStatus = $this -> checkLoginStatus($request);
         if( $loginStatus ){
-            return redirect("/Admin");
+            return redirect("/admin");
         }else{
             return view("Admin.login.login");
         }
