@@ -15,7 +15,7 @@
 /*
  * 前台路由
  */
-Route::namespace("home") -> group(function () {
+Route::namespace("Home") -> group(function () {
     Route::get('/',"IndexController@index");
 });
 
@@ -23,14 +23,14 @@ Route::namespace("home") -> group(function () {
 /*
  * 后台路由
  */
-Route::namespace('admin') -> group(function () {
+Route::namespace('Admin') -> group(function () {
 
     /*
      * 后台登录
      */
-    Route::get("/admin/login","LoginController@login");
-    Route::post("/admin/doLogin","LoginController@doLogin");
-    Route::post("/admin/quit","LoginController@quit");
+    Route::get("/Admin/login","LoginController@login");
+    Route::post("/Admin/doLogin","LoginController@doLogin");
+    Route::post("/Admin/quit","LoginController@quit");
 
     /*
      * 中间件组
@@ -39,10 +39,10 @@ Route::namespace('admin') -> group(function () {
         /*
          * 公共布局
          */
-        Route::get("/admin","BaseController@layout");
+        Route::get("/Admin","BaseController@layout");
         /*
          * 首页
          */
-        Route::get("/admin/index","IndexController@index");
+        Route::get("/Admin/index","IndexController@index");
     });
 });

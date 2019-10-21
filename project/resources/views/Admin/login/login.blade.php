@@ -43,7 +43,7 @@
                 var username = $("input[name='username']").val();
                 var password = $("input[name='password']").val();
                 $.ajax({
-                    url:"/admin/doLogin",
+                    url:"/Admin/doLogin",
                     type:"post",
                     data:{
                         username:username,
@@ -55,7 +55,7 @@
                     success:function (res) {
                         if( res.status == 200 ){
                             layer.msg(res.message);
-                            location.href="/admin";
+                            location.href="/Admin";
                         }else{
                             layer.msg(res.message);
                         }

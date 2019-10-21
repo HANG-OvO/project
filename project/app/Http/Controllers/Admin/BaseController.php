@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,6 +21,6 @@ class BaseController extends Controller
     * @return string(后台公共布局视图)
     */
     public function layout(){
-        return view("admin.layout.layout");
+        return view("Admin.layout.layout");
     }
 }

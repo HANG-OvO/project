@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,9 +24,9 @@ class LoginController extends Controller
     {
         $loginStatus = $this -> checkLoginStatus($request);
         if( $loginStatus ){
-            return redirect("/admin");
+            return redirect("/Admin");
         }else{
-            return view("admin.login.login");
+            return view("Admin.login.login");
         }
 
     }
