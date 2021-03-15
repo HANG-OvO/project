@@ -118,14 +118,14 @@
 
             $(document).on("click","#quit",function () {
                 $.ajax({
-                    url:"/Admin/quit",
+                    url:"/admin/quit",
                     type:"post",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success:function (res) {
                         if(res.status == 200){
-                            location.href="/Admin/login";
+                            location.href="/admin/login";
                         }else{
                             layer.msg(res.message);
                         }
