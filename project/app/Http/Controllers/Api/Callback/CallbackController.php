@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Monolog\Logger;
 
 class CallbackController extends Controller
 {
@@ -33,7 +32,6 @@ class CallbackController extends Controller
         $params['task_id'] = $request->get('param1'); // 任务Id
         $params['user_token'] = $request->get('param2'); // 用户标识
         $params['state'] = $request->get('param3'); // 作答结果
-        $params['ip'] = ip2long($request->get('ip')); // 时间戳
         $params['time'] = $request->get('time'); // 时间戳
         $params['sign'] = $request->get('sign'); // 签名
 
@@ -47,6 +45,7 @@ class CallbackController extends Controller
         // 验证用户
         $user_info = explode('-',$encrypted = Crypt::decryptString($params['user_token']));
         $user_id = $user_info[0];
+        $ip = $user_info[3];
         $user = DB::table('user') -> where('user_id', $user_id) -> get();
         if (!$user) {
             // 用户有误，记录日志
@@ -57,14 +56,14 @@ class CallbackController extends Controller
         $user_task_log = DB::table('user_task_log')
                             ->where('user_id', $user_id)
                             ->where('task_id', $params['task_id'])
-                            ->where('ip', $params['ip'])
+                            ->where('ip', $ip)
                             ->get();
         if (!$user_task_log) {
             // 任务未查到记录日志
             Log::debug("任务记录未找到",[$params,$user_info]);
             return $this->resposne(200);
         }
-        $result = DB::update('update user_task_log set state = ? where user_id = ? and task_id = ? and ip = ?', [$params['state'],$user_id, $params['task_id'], $params['ip']]);
+        $result = DB::update('update user_task_log set state = ? where user_id = ? and task_id = ? and ip = ?', [$params['state'],$user_id, $params['task_id'], $ip]);
         // 记录执行日志
         Log::debug("执行结果",[$result]);
         return $this->resposne(200);
