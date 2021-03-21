@@ -19,3 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('task_list', 'TaskController@get_task_list');
 Route::post('register', 'UserController@register');
+
+/*
+ * 回调路由
+ */
+Route::namespace('Callback') -> group(function () {
+
+    /*
+     * 后台登录
+     */
+    Route::get("/callback/taskback","CallbackController@taskback");
+
+});
