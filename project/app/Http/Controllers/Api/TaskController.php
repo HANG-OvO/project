@@ -42,27 +42,77 @@ class TaskController extends Controller
         }
 
         $ip = $request->getClientIp();
-        $user_id = 1;
+        $user_id =  4;
         $user_task_log = DB::table("user_task_log")
             ->where("user_id",$user_id)
             ->where('ip',$ip)
             ->where("task_id",$task_id)
             ->first();
 
-        if($user_task_log){
+        if(isset($user_task_log->state)){
             return $this -> resposne(400,"您已经做个该任务 请检查你的ip");
         }
 
-        $use_log_id = DB::table('user_task_log')->insertGetId([
-            "user_id" =>$user_id,
-            "task_id" =>$task_id,
-            "ip"=>$ip
+        if(!$user_task_log){
+
+            $str = $user_id."-".$task_id."-".$ip;
+            $encrypted = Crypt::encryptString($str);
+
+            $use_log_id = DB::table('user_task_log')->insertGetId([
+                "user_id" =>$user_id,
+                "task_id" =>$task_id,
+                "ip"=>$ip,
+                "user_sign"=>$encrypted
             ]);
-        if(!$use_log_id){
-            return $this -> resposne(400,"添加任务失败");
+            if(!$use_log_id){
+                return $this -> resposne(400,"添加任务失败");
+            }
+
+        }else{
+            $encrypted = $user_task_log->user_sign;
         }
-        $str = $user_id."-".$task_id."-".$ip;
-        $encrypted = Crypt::encryptString($str);
+
+
         return $this -> resposne(200,"成功",$encrypted);
+    }
+
+
+    /**
+     * 添加任务
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function add_task(Request $request){
+
+        $task_id = $request->get('task_id');
+
+        $task_url = $request->get('task_url');
+
+        if(!$task_url){
+            return $this -> resposne(400,"任务链接不能为空");
+        }
+
+        $task_title = $request->get('task_title');
+
+        if(!$task_title){
+            return $this -> resposne(400,"任务标题不能为空");
+        }
+
+
+        $task = DB::table("task")->where("task_url",$task_url)->first();
+        if($task) {
+            return $this->resposne(400, "你已添加过该任务 请确认在添加");
+        }
+
+        $task= DB::table('task')->insertGetId([
+            "task_id" =>$task_id,
+            "task_url" =>$task_url,
+            "task_title"=>$task_title
+        ]);
+
+        if(!$task){
+            return $this -> resposne(400,"添加失败");
+        }
+        return $this -> resposne(200,"成功");
     }
 }

@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('task_list', 'TaskController@get_task_list');
 Route::get('check_task', 'TaskController@check_user_task');
+Route::post('add_task', 'TaskController@add_task');
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
 
