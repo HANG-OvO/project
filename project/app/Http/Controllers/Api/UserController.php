@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -66,15 +67,19 @@ class UserController extends Controller
         if( !$password ){
             return $this -> resposne(400,"密码不能为空");
         }
-
-        $user = DB::select('select * from user where user_name = ? and password = ?',[$user_name,$password]);
+        $user = DB::table('user')
+            ->where("user_name", $user_name)
+            ->where("password", $password)
+            ->first();
 
         if(!$user){
             return $this->resposne("400",'用户名不存在  请先注册');
         }
-        var_dump($user);die;
 
-        return $this->resposne('200','注册成功');
+        $str = $user->user_id."-".$user_name."-".$password;
+        $encrypted = Crypt::encryptString($str);
+
+        return $this->resposne('200','登录成功',['token'=>$encrypted]);
 
     }
 
