@@ -12,8 +12,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+<<<<<<< HEAD
 
     public function resposne($status,$message,$content = []){
+=======
+    public function resposne($status,$message = "",$content = []){
+>>>>>>> 770761f8b292add600d9d19783ce96e0f5f95f16
         return response() -> json([
             "status" => $status,
             "content" => $content,
