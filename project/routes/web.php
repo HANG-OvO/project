@@ -16,7 +16,9 @@
  * 前台路由
  */
 Route::namespace("Home") -> group(function () {
-    Route::get('/',"IndexController@index");
+//    Route::get('/',"IndexController@index");
+    Route::post('/login',"LoginController@login");
+
 });
 
 
@@ -31,6 +33,7 @@ Route::namespace('Admin') -> group(function () {
     Route::get("/admin/login","LoginController@login");
     Route::post("/admin/doLogin","LoginController@doLogin");
     Route::post("/admin/quit","LoginController@quit");
+    Route::post("/admin/task","TaskController@add_task");
 
     /*
      * 中间件组

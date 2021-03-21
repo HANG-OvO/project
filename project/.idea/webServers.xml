@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9b7a9d95-5b1c-4dff-9341-bec70f0e60f2" name="lh_tesxt" url="http://8.131.112.197">
+        <fileTransfer host="8.131.112.197" port="22" rootFolder="/data/project/project/project/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

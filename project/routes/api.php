@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('task_list', 'TaskController@get_task_list');
+Route::post('register', 'UserController@register');
