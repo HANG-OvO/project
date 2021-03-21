@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('task_list', 'TaskController@get_task_list');
 Route::post('register', 'UserController@register');
+Route::post('login', 'UserController@login');
 
 /*
  * 回调路由

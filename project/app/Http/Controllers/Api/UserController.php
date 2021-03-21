@@ -20,8 +20,17 @@ class UserController extends Controller
     public function register(Request $request){
 
         $user_name = $request->post('user_name');
-        $password = "123456";
-        $phone = "13522154864";
+
+        if( !$user_name ){
+            return $this -> resposne(400,"用户名不能为空");
+        }
+
+        $password = $request -> post("password",null);
+        if( !$password ){
+            return $this -> resposne(400,"密码不能为空");
+        }
+
+        $phone = $request->post('phone');
 
         $user = DB::select('select * from user where user_name = ?',[$user_name]);
 
@@ -29,7 +38,43 @@ class UserController extends Controller
             return $this->resposne("400",'用户名已存在');
         }
 
-        var_dump($request->post('user_name'));die;
+        $user = DB::table('user')->insertGetId([
+            'user_name' => $user_name,
+            'password' => $password,
+            'phone' => $phone,
+        ]);
+
+        return $this->resposne('200','注册成功');
+
+    }
+
+
+    /**
+     * 登录
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request){
+
+        $user_name = $request->post('user_name');
+
+        if( !$user_name ){
+            return $this -> resposne(400,"用户名不能为空");
+        }
+
+        $password = $request -> post("password",null);
+        if( !$password ){
+            return $this -> resposne(400,"密码不能为空");
+        }
+
+        $user = DB::select('select * from user where user_name = ? and password = ?',[$user_name,$password]);
+
+        if(!$user){
+            return $this->resposne("400",'用户名不存在  请先注册');
+        }
+        var_dump($user);die;
+
+        return $this->resposne('200','注册成功');
 
     }
 
