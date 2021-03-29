@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
-class TaskController extends Controller
+class TaskController extends BaseController
 {
 
     public function get_task_list()
@@ -36,13 +36,16 @@ class TaskController extends Controller
             return $this -> resposne(400,"任务ID为空");
         }
 
-        $task = DB::table("task")->where("id",$task_id)->first();
+        $task = DB::table("task")
+            ->where("id",$task_id)
+            ->where("is_delete",0)
+            ->first();
         if(!$task){
             return $this -> resposne(400,"任务不存在");
         }
 
         $ip = $request->getClientIp();
-        $user_id =  4;
+        $user_id =  $this->user_id;
         $user_task_log = DB::table("user_task_log")
             ->where("user_id",$user_id)
             ->where('ip',$ip)
@@ -114,5 +117,26 @@ class TaskController extends Controller
             return $this -> resposne(400,"添加失败");
         }
         return $this -> resposne(200,"成功");
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function del_task(Request $request){
+
+        $task_id = $request->get('task_id');
+
+        $task = DB::table("task")->where("id",$task_id)->first();
+        if(!$task) {
+            return $this->resposne(400, "您删除的任务不存在");
+        }
+
+        $result = DB::update('update task set is_delete = ? where id = ? ', [1,$task_id]);
+        if(!$result){
+            return $this -> resposne(400,"删除失败");
+        }
+        return $this -> resposne(200,"删除成功");
     }
 }

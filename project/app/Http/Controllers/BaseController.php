@@ -14,7 +14,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
-class BaseController
+class BaseController extends \Illuminate\Routing\Controller
 {
     protected $user_id;
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
