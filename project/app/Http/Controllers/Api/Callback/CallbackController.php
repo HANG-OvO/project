@@ -53,7 +53,7 @@ class CallbackController extends Controller
                 return $this->resposne(200);
             }
             // 验证用户
-            $user_info = explode('-',$encrypted = Crypt::decryptString($params['user_token']));
+            $user_info = explode('-',$params['user_token']);
             $user_id = $user_info[0];
             $ip = $user_info[3];
             $user = DB::table('user') -> where('user_id', $user_id) -> get();

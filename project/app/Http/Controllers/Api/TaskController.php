@@ -58,8 +58,7 @@ class TaskController extends BaseController
 
         if(!$user_task_log){
 
-            $str = $user_id."-".$task_id."-".$ip;
-            $encrypted = Crypt::encryptString($str);
+            $encrypted = $user_id."-".$task_id."-".$ip;
 
             $use_log_id = DB::table('user_task_log')->insertGetId([
                 "user_id" =>$user_id,
