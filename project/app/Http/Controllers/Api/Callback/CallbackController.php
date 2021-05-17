@@ -42,6 +42,7 @@ class CallbackController extends Controller
             if (!$params['task_id'] || !$params['user_token']) {
                 // 参数错误记录日志
                 Log::debug("参数错误",$params);
+                header('Location:http://lhorz.cn/#/tasks');die;
                 return $this->resposne(200);
             }
 
@@ -50,6 +51,7 @@ class CallbackController extends Controller
             if (!$task) {
                 // 任务有误记录日志
                 Log::debug("任务未找到",$params);
+                header('Location:http://lhorz.cn/#/tasks');die;
                 return $this->resposne(200);
             }
             // 验证用户
@@ -60,6 +62,7 @@ class CallbackController extends Controller
             if (!$user) {
                 // 用户有误，记录日志
                 Log::debug("用户未找到",[$params,$user_info]);
+                header('Location:http://lhorz.cn/#/tasks');die;
                 return $this->resposne(200);
             }
             // 修改任务状态
@@ -71,16 +74,19 @@ class CallbackController extends Controller
             if (!$user_task_log) {
                 // 任务未查到记录日志
                 Log::debug("任务记录未找到",[$params,$user_info]);
+                header('Location:http://lhorz.cn/#/tasks');die;
                 return $this->resposne(200);
             }
             $result = DB::update('update user_task_log set state = ? where user_id = ? and task_id = ? and ip = ?', [$params['state'],$user_id, $params['task_id'], $ip]);
             // 记录执行日志
             Log::debug("执行结果",[$result]);
+            header('Location:http://lhorz.cn/#/tasks');die;
             return $this->resposne(200);
 
         } catch (\Exception $e) {
 
             Log::debug("执行结果",[$e->getMessage()]);
+            header('Location:http://lhorz.cn/#/tasks');die;
             return $this->resposne(200);
 
         }
